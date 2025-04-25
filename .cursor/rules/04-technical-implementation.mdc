@@ -1,0 +1,73 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Technical Implementation Guide
+
+## Core Technologies
+- Python 3.10+
+- OpenCV for computer vision
+- PyAutoGUI for screen interaction
+- Tesseract for OCR
+- NumPy for data processing
+
+## Screen Capture Implementation
+
+```python
+# Core screen capture must follow this pattern
+class ScreenCapture:
+    def capture_full_screen(self) -> np.ndarray:
+        """Capture the entire screen with error handling"""
+        # Return the screen as BGR numpy array
+        pass
+        
+    def capture_region(self, region: Tuple[int, int, int, int]) -> np.ndarray:
+        """Capture specific region (x, y, width, height)"""
+        # Return the region as BGR numpy array
+        pass
+```
+
+## Template Matching Implementation
+
+```python
+# Template matching should support multiple methods
+class TemplateMatcher:
+    def find_template(
+        self, 
+        screen: np.ndarray, 
+        template_name: str,
+        threshold: float = 0.8,
+        method: str = "cv2.TM_CCOEFF_NORMED"
+    ) -> Optional[Tuple[int, int, int, int, float]]:
+        """Find template on screen, return (x, y, w, h, confidence)"""
+        pass
+```
+
+## State Management Implementation
+
+```python
+# State system should be hierarchical
+class GameState:
+    def __init__(self, name: str, templates: List[str], parent=None):
+        """Define a game state with its recognition templates"""
+        pass
+        
+    def detect(self, screen: np.ndarray) -> Tuple[bool, float]:
+        """Return (is_active, confidence)"""
+        pass
+```
+
+## Input Simulation Implementation
+
+```python
+# Input should simulate human behavior
+class InputSimulator:
+    def click(self, x: int, y: int, duration: float = None):
+        """Click at position with natural timing"""
+        pass
+        
+    def swipe(self, start_x: int, start_y: int, end_x: int, end_y: int, duration: float = None):
+        """Perform swipe gesture"""
+        pass
+```

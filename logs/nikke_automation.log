@@ -1,0 +1,48 @@
+2025-04-25 20:22:12,491 - __main__ - INFO - Loaded configuration from config.yaml
+2025-04-25 20:22:12,491 - __main__ - INFO - Initializing screen capture...
+2025-04-25 20:22:12,499 - __main__ - INFO - Initializing template matcher...
+2025-04-25 20:22:12,503 - __main__ - INFO - Initializing input controller...
+2025-04-25 20:22:12,503 - __main__ - INFO - Initializing state manager...
+2025-04-25 20:22:12,503 - __main__ - INFO - Initializing state detector...
+2025-04-25 20:22:12,503 - __main__ - INFO - Initializing navigation engine...
+2025-04-25 20:22:12,504 - src.core.state.navigation - WARNING - Navigation config not found: resources\navigation\config.json
+2025-04-25 20:22:12,504 - __main__ - INFO - Initializing input verifier...
+2025-04-25 20:22:35,422 - __main__ - INFO - Loaded configuration from config.yaml
+2025-04-25 20:22:35,422 - __main__ - INFO - Initializing screen capture...
+2025-04-25 20:22:35,424 - __main__ - INFO - Initializing template matcher...
+2025-04-25 20:22:35,425 - __main__ - INFO - Initializing input controller...
+2025-04-25 20:22:35,425 - __main__ - INFO - Initializing state manager...
+2025-04-25 20:22:35,425 - __main__ - INFO - Initializing state detector...
+2025-04-25 20:22:35,426 - __main__ - INFO - Initializing navigation engine...
+2025-04-25 20:22:35,426 - src.core.state.navigation - WARNING - Navigation config not found: resources\navigation\config.json
+2025-04-25 20:22:35,426 - __main__ - INFO - Initializing input verifier...
+2025-04-25 20:22:35,426 - __main__ - INFO - Framework initialization complete
+2025-04-25 20:22:35,426 - root - INFO - Running test sequence
+2025-04-25 20:22:35,529 - root - ERROR - Error during task execution: Template 'home/home_indicator' not found
+Traceback (most recent call last):
+  File "G:\code\python\daily-ai-slurper\src\main.py", line 326, in main
+    run_test_sequence(framework)
+  File "G:\code\python\daily-ai-slurper\src\main.py", line 349, in run_test_sequence
+    state, details = framework.detect_current_state()
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "G:\code\python\daily-ai-slurper\src\main.py", line 112, in detect_current_state
+    state_id, details = self.state_manager.detect_state(force_refresh=True)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "G:\code\python\daily-ai-slurper\src\core\state\manager.py", line 147, in detect_state
+    is_current, results = state_obj.verify(self.template_matcher, screen)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "G:\code\python\daily-ai-slurper\src\core\state\manager.py", line 83, in verify
+    passed, matches = verifier.verify(matcher, image)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "G:\code\python\daily-ai-slurper\src\core\state\manager.py", line 53, in verify
+    matches = matcher.match_all(image, self.template_names, self.method, self.threshold)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "G:\code\python\daily-ai-slurper\src\core\vision\template.py", line 146, in match_all
+    match = self.match(image, name, method, threshold)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "G:\code\python\daily-ai-slurper\src\core\vision\template.py", line 119, in match
+    raise ValueError(f"Template '{template_name}' not found")
+ValueError: Template 'home/home_indicator' not found
+2025-04-25 20:22:35,532 - __main__ - INFO - Shutting down framework
+2025-04-25 20:22:35,534 - __main__ - INFO - State history saved to logs/state_history.json
+2025-04-25 20:22:35,534 - __main__ - INFO - Input log saved to logs/input_log.json

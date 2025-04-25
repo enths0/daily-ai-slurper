@@ -1,0 +1,72 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Project Structure
+
+The NIKKE Automation Framework follows a modular architecture to ensure maintainability and extensibility:
+
+```
+daily-ai-slurper/
+├── src/
+│   ├── core/
+│   │   ├── __init__.py
+│   │   ├── vision/
+│   │   │   ├── __init__.py
+│   │   │   ├── capture.py       # Screen capture module
+│   │   │   ├── template.py      # Template matching engine
+│   │   │   └── ocr.py           # OCR integration (future)
+│   │   ├── state/
+│   │   │   ├── __init__.py
+│   │   │   ├── manager.py       # State management system
+│   │   │   ├── detection.py     # State detection logic
+│   │   │   └── navigation.py    # Navigation between states
+│   │   └── input/
+│   │       ├── __init__.py
+│   │       ├── controller.py    # Input simulation
+│   │       └── verification.py  # Input verification
+│   ├── game/
+│   │   ├── __init__.py
+│   │   ├── screens/
+│   │   │   ├── __init__.py
+│   │   │   ├── home.py          # Home screen definition
+│   │   │   ├── battle.py        # Battle screen definition
+│   │   │   └── shop.py          # Shop screen definition
+│   │   └── tasks/
+│   │       ├── __init__.py
+│   │       └── daily.py         # Daily tasks (future)
+│   ├── utils/
+│   │   ├── __init__.py
+│   │   ├── logger.py            # Logging system
+│   │   ├── config.py            # Configuration management
+│   │   └── exceptions.py        # Custom exceptions
+│   └── main.py                  # Entry point
+├── resources/
+│   └── templates/               # Template images storage
+│       ├── home/
+│       ├── battle/
+│       └── shop/
+├── tests/                       # Unit tests
+│   ├── __init__.py
+│   ├── test_capture.py
+│   ├── test_template.py
+│   └── test_state.py
+├── config.yaml                  # Configuration file
+├── requirements.txt             # Dependencies
+├── setup.py                     # Package setup
+└── README.md                    # Project documentation
+```
+
+## Core Component Guidelines
+
+- **core/vision**: All screen capture and template matching logic
+- **core/state**: State representation and detection system
+- **core/input**: Input simulation with natural timing patterns
+- **core/recovery**: Error detection and recovery mechanisms
+
+## Entry Points
+
+- `main.py` - Primary execution entry point
+- `config/settings.py` - Core configuration parameters
+

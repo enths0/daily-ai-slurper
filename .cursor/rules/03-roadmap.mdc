@@ -1,0 +1,40 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Development Roadmap
+
+## Phase 1: Foundation (Current Focus)
+Our immediate priority is building the core foundation with these components:
+
+1. **Screen Capture Module** - Complete by end of Week 1
+   - Reliable screen grabbing with PyAutoGUI
+   - Region-of-interest optimization
+   - Error handling for capture failures
+
+2. **Template Matching Engine** - Complete by end of Week 2
+   - Template storage system
+   - Multi-method matching using OpenCV
+   - Confidence scoring system
+   - Resolution independence
+
+3. **State Management System** - Complete by end of Week 3
+   - State definition framework
+   - State detection accuracy >95%
+   - Basic transitions between main screens
+
+4. **Input Simulation** - Complete by end of Week 3
+   - Natural timing patterns for clicks
+   - Basic gesture support (swipes, drags)
+   - Input verification mechanisms
+
+## Phase 2: Basic Tasks (Next Steps)
+- Daily login automation
+- Mail and shop collection
+- Basic navigation between game modes
+
+## Phase 3: Advanced Features (Future Work)
+- Resource optimization
+- Event participation
+- Combat automation
