@@ -1,1 +1,0 @@
-# NIKKE Automation Framework
