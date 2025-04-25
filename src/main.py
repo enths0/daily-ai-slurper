@@ -4,12 +4,14 @@ import time
 import logging
 import yaml
 from typing import Dict, Any, Optional
+import numpy as np
 
 from src.core.vision.capture import ScreenCapture
 from src.core.vision.template import TemplateMatcher, MatchMethod
 from src.core.state.manager import StateManager, GameState
 from src.core.state.detection import StateDetector
 from src.core.input.controller import InputController
+from src.game.tasks.shop import ShopTask
 
 
 class NikkeAutomation:
@@ -193,7 +195,30 @@ class NikkeAutomation:
             # Capture the screen to find templates
             screen = self.screen_capture.capture()
             
-            if action_name.startswith("click_"):
+            if action_name.startswith("click_template:"):
+                # Extract the template name from the action
+                template_name = action_name[len("click_template:"):]  # Remove 'click_template:' prefix
+                
+                # Find the template
+                match = self.template_matcher.find_template(
+                    screen, 
+                    template_name,
+                    method=MatchMethod.EXACT,
+                    threshold=0.7
+                )
+                
+                if match:
+                    # Click on the template (access center coordinates as a tuple)
+                    center_x, center_y = match.center
+                    self.input_controller.click(
+                        center_x, center_y, 
+                        randomize=True
+                    )
+                    return True
+                else:
+                    self.logger.warning(f"Template not found for action: {action_name}")
+                    return False
+            elif action_name.startswith("click_"):
                 # Extract the template name from the action
                 template_name = action_name[6:]  # Remove 'click_' prefix
                 
@@ -206,15 +231,25 @@ class NikkeAutomation:
                 )
                 
                 if match:
-                    # Click on the template
-                    self.input_controller.click_template(match)
+                    # Click on the template (access center coordinates as a tuple)
+                    center_x, center_y = match.center
+                    self.input_controller.click(
+                        center_x, center_y, 
+                        randomize=True
+                    )
                     return True
                 else:
                     self.logger.warning(f"Template not found for action: {action_name}")
                     return False
-            
-            # Add more action types as needed
-            
+            elif action_name.startswith("wait:"):
+                # Extract the wait duration
+                try:
+                    duration = float(action_name[5:])  # Remove 'wait:' prefix
+                    time.sleep(duration)
+                    return True
+                except ValueError:
+                    self.logger.warning(f"Invalid wait duration: {action_name}")
+                    return False
             else:
                 self.logger.warning(f"Unknown action: {action_name}")
                 return False
@@ -241,6 +276,41 @@ class NikkeAutomation:
         self.logger.info(f"Screen capture performance: Avg time: {stats['avg_capture_time']:.3f}s")
         
         self.logger.info("Test completed successfully")
+    
+    def capture_screen(self) -> np.ndarray:
+        """
+        Capture the current screen.
+        
+        Returns:
+            np.ndarray: The captured screen image
+        """
+        return self.screen_capture.capture()
+    
+    def run_shop_task(self) -> bool:
+        """
+        Run the shop purchase task to buy credit items.
+        
+        Returns:
+            bool: True if successful, False otherwise
+        """
+        self.logger.info("Starting shop purchase task")
+        
+        try:
+            # Initialize the shop task
+            shop_task = ShopTask(self)
+            
+            # Run the credit purchase task
+            result = shop_task.purchase_credit_items()
+            
+            if result:
+                self.logger.info("Shop purchase task completed successfully")
+            else:
+                self.logger.warning("Shop purchase task failed")
+                
+            return result
+        except Exception as e:
+            self.logger.error(f"Error running shop task: {str(e)}")
+            return False
 
 
 def main():

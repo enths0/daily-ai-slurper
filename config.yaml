@@ -55,7 +55,7 @@ logging:
 # Game-specific Configuration
 game:
   # Screen resolution for the game
-  resolution: [1920, 1080]
+  resolution: [2560, 1440]
   # Aspect ratio mode
   aspect_ratio: "16:9"
   # List of states to check for auto-recovery

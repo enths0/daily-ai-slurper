@@ -81,8 +81,8 @@ Available commands:
 
 Examples:
 ```
-# Capture a template image for a home screen button
-python -m src.cli capture --name menu_button --category home
+# Capture a template image for a home screen UI
+python -m src.cli capture --name main_ui --category home
 
 # Run a framework test
 python -m src.cli test
@@ -122,26 +122,37 @@ Template images are required for the framework to recognize the game's UI elemen
 To capture a template using the GUI:
 1. Launch the GUI with `python -m src.cli gui`
 2. Go to the "Template Capture" tab
-3. Enter the template name and select a category
+3. Enter the UI element name and select a category
 4. Click "Capture Template" and select the region on your screen
 
 To capture a template using the CLI:
 1. Run the template capture command:
    ```
-   python -m src.cli capture --name button_name --category home
+   python -m src.cli capture --name main_ui --category home
    ```
 
 2. Use the mouse to select the region of the screen containing the UI element.
 
-3. The template will be saved to `resources/templates/home/button_name.png`.
+3. The template will be saved to `resources/templates/home/main_ui.png`.
 
-Key templates needed for basic state detection:
-- `home/menu_button`
-- `home/shop_button`
-- `battle/battle_ui`
-- `battle/back_button`
-- `shop/shop_title`
-- `shop/purchase_button`
+#### Key Templates Needed
+
+##### Home Screen Templates
+- `home/main_ui` - Full screenshot of home screen UI for state detection
+- `home/shop_icon` - Button to navigate to shop
+
+##### Shop Templates
+- `shop/shop_ui` - Complete shop screen UI for state detection
+- `shop/credit_items` - Templates for items purchasable with CREDITS only
+- `shop/confirm_purchase` - The purchase confirmation button
+- `shop/currency_credits` - To verify correct currency (NOT gems)
+
+##### Common Elements
+- `common/return_home` - Return to home button (appears in multiple screens)
+- `common/close_button` - Generic X/close for popup handling
+- `common/confirm_button` - Generic OK/confirm for popup handling
+- `common/empty_area` - Safe area to click to dismiss popups
+- `common/loading_indicator` - To detect when game is loading
 
 ### Usage Examples
 

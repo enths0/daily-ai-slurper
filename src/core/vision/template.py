@@ -243,9 +243,9 @@ class TemplateMatcher:
             )
     
     def find_all_templates(self, image: np.ndarray, 
-                          method: MatchMethod = MatchMethod.EXACT,
-                          threshold: float = 0.8,
-                          max_results_per_template: int = 3) -> Dict[str, List[TemplateMatch]]:
+                           method: MatchMethod = MatchMethod.EXACT,
+                           threshold: float = 0.8,
+                           max_results_per_template: int = 3) -> Dict[str, List[TemplateMatch]]:
         """
         Find all loaded templates in the image.
         
@@ -274,3 +274,30 @@ class TemplateMatcher:
                 results[template_name] = matches
         
         return results
+        
+    # Alias for compatibility with shop task
+    def find_all_matches(self, image: np.ndarray, template_name: str,
+                        method: MatchMethod = MatchMethod.EXACT,
+                        threshold: float = 0.7,
+                        max_results: int = 5) -> List[TemplateMatch]:
+        """
+        Find all occurrences of a specific template in the image.
+        
+        Args:
+            image: Image to search in
+            template_name: Name of the template to find
+            method: Match method to use
+            threshold: Confidence threshold
+            max_results: Maximum number of results to return
+            
+        Returns:
+            List of TemplateMatch objects
+        """
+        return self.find_template(
+            image,
+            template_name,
+            method=method,
+            threshold=threshold,
+            multiple=True,
+            max_results=max_results
+        )

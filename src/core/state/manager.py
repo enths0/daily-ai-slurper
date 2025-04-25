@@ -18,6 +18,7 @@ class GameState(Enum):
     LOADING = auto()
     LOGIN = auto()
     ERROR = auto()
+    POPUP = auto()  # Added for popup handling
 
 
 class StateTransition:
@@ -69,7 +70,7 @@ class StateManager:
         self.register_transition(
             from_state=GameState.HOME_SCREEN,
             to_state=GameState.SHOP,
-            action_sequence=["click_shop_button"],
+            action_sequence=["click_template:home/shop_icon"],
             expected_duration=2.0
         )
         
@@ -77,24 +78,43 @@ class StateManager:
         self.register_transition(
             from_state=GameState.SHOP,
             to_state=GameState.HOME_SCREEN,
-            action_sequence=["click_back_button"],
+            action_sequence=["click_template:common/return_home"],
             expected_duration=1.5
         )
         
-        # Home to Battle transition
+        # Handle popups from any state
         self.register_transition(
-            from_state=GameState.HOME_SCREEN,
-            to_state=GameState.BATTLE,
-            action_sequence=["click_battle_button"],
+            from_state=GameState.POPUP,
+            to_state=GameState.UNKNOWN,  # We don't know what state we'll be in after closing popup
+            action_sequence=[
+                "click_template:common/close_button", 
+                "click_template:common/confirm_button",
+                "click_template:common/empty_area"
+            ],
+            expected_duration=1.0
+        )
+        
+        # Handle error state
+        self.register_transition(
+            from_state=GameState.ERROR,
+            to_state=GameState.HOME_SCREEN,
+            action_sequence=["click_template:common/confirm_button", "wait:2.0"],
             expected_duration=3.0
         )
         
-        # Battle to Home transition
+        # Recovery from UNKNOWN state - try to get back to home
         self.register_transition(
-            from_state=GameState.BATTLE,
+            from_state=GameState.UNKNOWN,
             to_state=GameState.HOME_SCREEN,
-            action_sequence=["click_home_button"],
-            expected_duration=2.0
+            action_sequence=[
+                "click_template:common/return_home",
+                "wait:1.0",
+                "click_template:common/close_button",
+                "wait:0.5",
+                "click_template:common/confirm_button",
+                "wait:0.5"
+            ],
+            expected_duration=3.0
         )
     
     def register_transition(self, 

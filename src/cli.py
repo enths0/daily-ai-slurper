@@ -109,6 +109,23 @@ def run_gui_command(args):
         sys.exit(1)
 
 
+def run_shop_command(args):
+    """Handle shop automation command"""
+    print("=== NIKKE Shop Automation ===")
+    
+    # Create automation instance
+    automation = NikkeAutomation(config_path=args.config)
+    
+    # Run the shop purchase task
+    print("Running shop purchase task...")
+    result = automation.run_shop_task()
+    
+    if result:
+        print("Shop purchase task completed successfully.")
+    else:
+        print("Shop purchase task failed. Check the logs for details.")
+
+
 def setup_parser():
     """Set up the argument parser"""
     parser = argparse.ArgumentParser(
@@ -127,6 +144,9 @@ Examples:
   
   Run automation and navigate to shop:
     python -m src.cli run --navigate SHOP
+    
+  Run shop purchase task:
+    python -m src.cli shop
         """
     )
     
@@ -160,6 +180,11 @@ Examples:
     run_parser.add_argument("--navigate", 
                           help="Navigate to a specific state (e.g., HOME_SCREEN, SHOP, BATTLE)")
     
+    # Shop task command
+    shop_parser = subparsers.add_parser("shop", help="Run shop automation tasks")
+    shop_parser.add_argument("--config", default="config.yaml",
+                           help="Path to the configuration file")
+    
     return parser
 
 
@@ -180,6 +205,8 @@ def main():
         run_test_command(args)
     elif args.command == "run":
         run_automation_command(args)
+    elif args.command == "shop":
+        run_shop_command(args)
     else:
         parser.print_help()
 

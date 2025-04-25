@@ -25,17 +25,17 @@ class StateDetector:
         # Define state definitions with required templates and confidence thresholds
         self.state_definitions: Dict[GameState, Dict] = {
             GameState.HOME_SCREEN: {
-                "required_templates": ["home/menu_button", "home/shop_button"],
+                "required_templates": ["home/main_ui", "home/shop_icon"],
                 "confidence_threshold": 0.8,
-                "match_all": True  # All templates must be matched
+                "match_all": False  # Any of these templates confirms we're on home screen
             },
             GameState.BATTLE: {
-                "required_templates": ["battle/battle_ui", "battle/back_button"],
+                "required_templates": ["battle/battle_ui"],
                 "confidence_threshold": 0.7,
                 "match_all": True
             },
             GameState.SHOP: {
-                "required_templates": ["shop/shop_title", "shop/purchase_button"],
+                "required_templates": ["shop/shop_ui", "common/return_home"],
                 "confidence_threshold": 0.75,
                 "match_all": False  # Only one template needs to match
             },
@@ -48,6 +48,11 @@ class StateDetector:
                 "required_templates": ["common/error_icon", "common/error_message"],
                 "confidence_threshold": 0.7,
                 "match_all": False
+            },
+            GameState.POPUP: {
+                "required_templates": ["common/close_button", "common/confirm_button"],
+                "confidence_threshold": 0.65,
+                "match_all": False  # Either a close button or confirm button indicates a popup
             }
         }
     
